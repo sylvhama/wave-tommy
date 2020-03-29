@@ -104,6 +104,7 @@ function create() {
   retryText.setInteractive();
 
   retryText.on("pointerdown", () => {
+    score = 0;
     gameOver = false;
     retryText.visible = false;
     this.scene.restart();
