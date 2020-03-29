@@ -44,6 +44,7 @@ let cursors;
 let isButtonDown = false;
 let direction;
 let score = 0;
+let retryText;
 let scoreText;
 let gameOver = false;
 
@@ -63,7 +64,7 @@ function create() {
   //  A simple background for our game
   this.add.image(400, 300, "sky");
 
-  //  The platforms group contains the ground and the 2 ledges we can jump on
+  //  The ground
   platforms = this.physics.add.staticGroup();
 
   const floor = this.add.rectangle(
@@ -92,6 +93,22 @@ function create() {
     setXY: { x: 32, y: 0, stepX: 0 }
   });
 
+  //  Restart
+  retryText = this.add.text(SCENE_WIDTH / 2, SCENE_HEIGHT / 2, "Retry", {
+    fontFamily: "Comic Sans MS",
+    fontSize: "32px",
+    fill: "#000"
+  });
+  retryText.visible = false;
+
+  retryText.setInteractive();
+
+  retryText.on("pointerdown", () => {
+    gameOver = false;
+    retryText.visible = false;
+    this.scene.restart();
+  });
+
   //  The score
   scoreText = this.add.text(16, 16, "Score: 0", {
     fontFamily: "Comic Sans MS",
@@ -116,19 +133,19 @@ function create() {
   left.setInteractive();
   right.setInteractive();
 
-  left.on("pointerdown", e => {
+  left.on("pointerdown", () => {
     direction = LEFT_DIRECTION;
     isButtonDown = true;
   });
-  left.on("pointerup", e => {
+  left.on("pointerup", () => {
     isButtonDown = false;
   });
 
-  right.on("pointerdown", e => {
+  right.on("pointerdown", () => {
     direction = RIGHT_DIRECTION;
     isButtonDown = true;
   });
-  right.on("pointerup", e => {
+  right.on("pointerup", () => {
     isButtonDown = false;
   });
 }
@@ -193,9 +210,6 @@ function bombTouchesGround(bomb) {
   ) {
     createBomb();
   }
-  // bomb.setCollideWorldBounds(true);
-  // bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-  // bomb.allowGravity = false;
 }
 
 function hitBomb(player) {
@@ -204,4 +218,5 @@ function hitBomb(player) {
   player.setTint(0xff0000);
 
   gameOver = true;
+  retryText.visible = true;
 }
