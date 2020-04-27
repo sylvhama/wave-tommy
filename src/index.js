@@ -54,16 +54,10 @@ function preload() {
   this.load.image("left", leftIcon);
   this.load.image("right", rightIcon);
   this.load.image("bomb", bomb);
-  this.load.spritesheet("dude", dude, {
-    frameWidth: 32,
-    frameHeight: 48
-  });
+  this.load.image("dude", dude);
 }
 
 function create() {
-  //  A simple background for our game
-  this.add.image(400, 300, "sky");
-
   //  The ground
   platforms = this.physics.add.staticGroup();
 
